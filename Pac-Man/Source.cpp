@@ -47,3 +47,21 @@ void RellenarMapa()
     }
 }
 
+void ImprimirPantalla()
+{
+    for (int i = 0; i < CONSOLE_HEIGHT; i++)
+    {
+        for (int j = 0; j < CONSOLE_WIDTH; j++)
+        {
+            if (personaje_x == j && personaje_y == i)
+            {
+                cout << personaje;
+            }
+            else
+            {
+                cout << (char)ConsoleScreen[i][j];
+            }
+        }
+        cout << endl;
+    }
+}
