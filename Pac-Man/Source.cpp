@@ -14,6 +14,7 @@ void Inputs();
 void Logica();
 void LimpiarPantalla();
 void ImprimirScore();
+void GameOver();
 
 enum MAP_TILES { EMPTY = ' ', WALL = 219, PUNTO = 248};
 enum USER_INPUTS { NONE, UP, DOWN, RIGHT, LEFT, QUIT };
@@ -39,6 +40,7 @@ int main()
         Inputs();
         Logica();
         ImprimirScore();
+        GameOver();
         LimpiarPantalla();
     }
 }
@@ -197,4 +199,22 @@ void ImprimirScore() {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
     cout << "Score: " << score ;
     cout << "  Puntos Totales: " << mapaPoints << " ";
+}
+void GameOver() {
+    if (mapaPoints <= 0) {
+        system("CLS");
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+        cout << R"(
+      :::    :::     :::      ::::::::          ::::::::      :::     ::::    :::     :::     :::::::::   ::::::::    
+     :+:    :+:   :+: :+:   :+:    :+:        :+:    :+:   :+: :+:   :+:+:   :+:   :+: :+:   :+:    :+: :+:    :+:    
+    +:+    +:+  +:+   +:+  +:+               +:+         +:+   +:+  :+:+:+  +:+  +:+   +:+  +:+    +:+ +:+    +:+     
+   +#++:++#++ +#++:++#++: +#++:++#++        :#:        +#++:++#++: +#+ +:+ +#+ +#++:++#++: +#+    +:+ +#+    +:+      
+  +#+    +#+ +#+     +#+        +#+        +#+   +#+# +#+     +#+ +#+  +#+#+# +#+     +#+ +#+    +#+ +#+    +#+       
+ #+#    #+# #+#     #+# #+#    #+#        #+#    #+# #+#     #+# #+#   #+#+# #+#     #+# #+#    #+# #+#    #+#        
+###    ### ###     ###  ########          ########  ###     ### ###    #### ###     ### #########   ########          
+
+)";
+        cout << "Pulsa q para cerrar";
+        run = false;
+    }
 }
