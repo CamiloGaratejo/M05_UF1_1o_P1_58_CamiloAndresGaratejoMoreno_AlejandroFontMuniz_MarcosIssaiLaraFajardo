@@ -3,11 +3,12 @@
 #include <Windows.h>
 #include <string>
 
-// Bordes del mapa 
+// Bordes del mapa
 using namespace std;
 #define CONSOLE_HEIGHT 29
 #define CONSOLE_WIDTH 119
 
+// Declarando las funciones para saber donde estan en el codigo
 void RellenarMapa();
 void ImprimirPantalla();
 void Inputs();
@@ -16,13 +17,14 @@ void LimpiarPantalla();
 void ImprimirScore();
 void GameOver();
 
+// Declarando los enums
 enum MAP_TILES { EMPTY = ' ', WALL = 219, PUNTO = 248};
 enum USER_INPUTS { NONE, UP, DOWN, RIGHT, LEFT, QUIT };
 
 // Caracteres para imprimir en consola
 MAP_TILES ConsoleScreen[CONSOLE_HEIGHT][CONSOLE_WIDTH];
 
-// Vriables
+// Vriables generales
 USER_INPUTS input = USER_INPUTS::NONE;
 char personaje = 2;
 int personaje_x = 10;
@@ -31,6 +33,7 @@ int score;
 int mapaPoints = 24;
 bool run = true;
 
+// El main es para ejecuatar el codigo y que representa el orden en el cual se ejecuta en un bucle
 int main()
 {
     RellenarMapa();
@@ -43,6 +46,8 @@ int main()
         GameOver();
         LimpiarPantalla();
     }
+    char s;
+    cin >> s;
 }
 
 void RellenarMapa()
@@ -62,6 +67,8 @@ void RellenarMapa()
             }
         }
     }
+
+    // Para poder poner los puntas en el mapa
     ConsoleScreen[12][0] = MAP_TILES::PUNTO;
     ConsoleScreen[12][CONSOLE_WIDTH - 1] = MAP_TILES::PUNTO;
     ConsoleScreen[13][0] = MAP_TILES::PUNTO;
@@ -72,7 +79,6 @@ void RellenarMapa()
     ConsoleScreen[15][CONSOLE_WIDTH - 1] = MAP_TILES::PUNTO;
     ConsoleScreen[16][0] = MAP_TILES::PUNTO;
     ConsoleScreen[16][CONSOLE_WIDTH - 1] = MAP_TILES::PUNTO;
-
     ConsoleScreen[0][56] = MAP_TILES::PUNTO;
     ConsoleScreen[CONSOLE_HEIGHT - 1][56] = MAP_TILES::PUNTO;
     ConsoleScreen[0][57] = MAP_TILES::PUNTO;
@@ -91,6 +97,7 @@ void RellenarMapa()
 
 void Inputs()
 {
+    // Mediante un switch podemos espesificar que teclas son las que se usan para poder gestionar el juego 
     char _input = _getch();
     switch (_input)
     {
@@ -120,6 +127,13 @@ void Inputs()
     }
 }
 
+
+/// <summary>
+/// E la logica lo que hace es pillar los imputs del usuario y hace que el jugador se mueva en el entorno
+/// con mayor fluides y va restando los puntos restantes del mapa y va sumando el score 
+/// tambien mediante estos metodos de programacion hacemos que el jugador pueda hacer los traspasos
+/// de lado a lado esto es mediante una condicional (IF) que gestiona la posision del personaje al traspasar los bordes  
+/// </summary>
 void Logica()
 {
     int personaje_y_new = personaje_y;
@@ -168,6 +182,7 @@ void Logica()
 
 void ImprimirPantalla()
 {
+    // Mediante un buble se pone el imprimir la pantalla y con ella se ve genera todo los elementos visibles
     for (int i = 0; i < CONSOLE_HEIGHT; i++)
     {
         for (int j = 0; j < CONSOLE_WIDTH; j++)
@@ -192,14 +207,20 @@ void ImprimirPantalla()
         cout << endl;
     }
 }
+
+// Sistema para poder limpiar la terminal y que no parpadee al meter los imputs
 void LimpiarPantalla() {
     COORD cursorPosition; cursorPosition.X = 0; cursorPosition.Y = 0; SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
 }
+
+// Sistema para imprimir en panatlla el score y los puntos restantes
 void ImprimirScore() {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
     cout << "Score: " << score ;
     cout << "  Puntos Totales: " << mapaPoints << " ";
 }
+
+// Sistema para que cuando se acaben los puntos del mapa se cancele el buble de ejecutar y sale la pantalla de HAS GANADO 
 void GameOver() {
     if (mapaPoints <= 0) {
         system("CLS");
